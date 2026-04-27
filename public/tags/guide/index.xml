@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Guide on Petru Blog</title>
+    <link>https://petrucodes.ro/tags/guide/</link>
+    <description>Recent content in Guide on Petru Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Apr 2026 15:07:10 +0300</lastBuildDate>
+    <atom:link href="https://petrucodes.ro/tags/guide/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating a CMS web application for a blog in Rust</title>
+      <link>https://petrucodes.ro/posts/my-first-programming-post/</link>
+      <pubDate>Mon, 27 Apr 2026 15:07:10 +0300</pubDate>
+      <guid>https://petrucodes.ro/posts/my-first-programming-post/</guid>
+      <description>&lt;h1 id=&#34;web-programming-in-rust&#34;&gt;Web programming in Rust&lt;/h1&gt;
+&lt;p&gt;Web in rust is interesting for this project we are using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Axum&lt;/li&gt;
+&lt;li&gt;Etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A git repository with this project is available here:
+&lt;a href=&#34;https://github.com/petru-robu/rust-blog&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  https://github.com/petru-robu/rust-blog
+&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

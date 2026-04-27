@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/</link>
-    <description>Recent content in Tags on My New Hugo Site</description>
+    <title>Tags on Petru Blog</title>
+    <link>https://petrucodes.ro/tags/</link>
+    <description>Recent content in Tags on Petru Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Apr 2026 17:10:20 +0300</lastBuildDate>
+    <atom:link href="https://petrucodes.ro/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Information</title>
+      <link>https://petrucodes.ro/tags/information/</link>
+      <pubDate>Mon, 27 Apr 2026 17:10:20 +0300</pubDate>
+      <guid>https://petrucodes.ro/tags/information/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Architecture</title>
+      <link>https://petrucodes.ro/tags/architecture/</link>
+      <pubDate>Mon, 27 Apr 2026 15:12:10 +0300</pubDate>
+      <guid>https://petrucodes.ro/tags/architecture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Electronic Music</title>
+      <link>https://petrucodes.ro/tags/electronic-music/</link>
+      <pubDate>Mon, 27 Apr 2026 15:12:10 +0300</pubDate>
+      <guid>https://petrucodes.ro/tags/electronic-music/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Experimental</title>
+      <link>https://petrucodes.ro/tags/experimental/</link>
+      <pubDate>Mon, 27 Apr 2026 15:12:10 +0300</pubDate>
+      <guid>https://petrucodes.ro/tags/experimental/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Guide</title>
+      <link>https://petrucodes.ro/tags/guide/</link>
+      <pubDate>Mon, 27 Apr 2026 15:07:10 +0300</pubDate>
+      <guid>https://petrucodes.ro/tags/guide/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust</title>
+      <link>https://petrucodes.ro/tags/rust/</link>
+      <pubDate>Mon, 27 Apr 2026 15:07:10 +0300</pubDate>
+      <guid>https://petrucodes.ro/tags/rust/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

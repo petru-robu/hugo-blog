@@ -1,0 +1,4 @@
+.post-content p {
+    text-align: justify;
+    hyphens: auto; /* Highly recommended when justifying text so you don't get weird gaps */
+}

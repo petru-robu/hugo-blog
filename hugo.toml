@@ -1,4 +1,44 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://petrucodes.ro/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'ananke'
+title = 'Petru Blog'
+theme = 'PaperMod'
+
+[menu]
+  [[menu.main]]
+    name = "Programming"
+    url = "/categories/programming/"
+    weight = 10
+
+  [[menu.main]]
+    name = "Music"
+    url = "/categories/music/"
+    weight = 20
+
+  [[menu.main]]
+    name = "Other"
+    url = "/categories/other/"
+    weight = 30
+
+  [[menu.main]]
+    name = "Search"
+    url = "/search/"
+    weight = 40
+
+
+[params]
+    [params.profileMode]
+        enabled = true
+        title = "Welcome to my blog"
+        subtitle = "This blog is intended as a way to share my interests with others. You can find articles here ranging from programming, technical articles to music, art and movie reviews."
+
+    [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/petru-robu"
+
+    [[params.socialIcons]]
+    name = "youtube"
+    url = "https://www.youtube.com/@petru-robu64"
+
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
