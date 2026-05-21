@@ -6,10 +6,38 @@
     <description>Recent content in Experimental on Petru Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Apr 2026 15:12:10 +0300</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 18:58:24 +0300</lastBuildDate>
     <atom:link href="https://petrucodes.ro/tags/experimental/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Composing Atmospheres</title>
+      <title>Composing Atmospheres Workshop</title>
+      <link>https://petrucodes.ro/posts/composing-atmospheres-workshop/</link>
+      <pubDate>Thu, 21 May 2026 18:58:24 +0300</pubDate>
+      <guid>https://petrucodes.ro/posts/composing-atmospheres-workshop/</guid>
+      <description>&lt;h1 id=&#34;about-the-workshop&#34;&gt;About the workshop&lt;/h1&gt;
+&lt;p&gt;I collaborated with my sister, soon-to-be Phd in Architecture, for a workshop that explored the connection between architecture and music.&lt;/p&gt;
+&lt;p&gt;As I have some previous experience with composing music and I am a CS student, I was tasked with the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Creating compositions based on students&amp;rsquo; projects&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Creating an interactive website where someone can create a composition&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;website&#34;&gt;Website&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The website should be up at: &lt;a href=&#34;https://composingatmospheres.ro/&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  https://composingatmospheres.ro/
+&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The source code for the website should be available here: &lt;a href=&#34;https://github.com/petru-robu/vibraspace&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  https://github.com/petru-robu/vibraspace
+&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Composing atmospheres presentation at UAUIM</title>
       <link>https://petrucodes.ro/posts/composing-atmospheres/</link>
       <pubDate>Mon, 27 Apr 2026 15:12:10 +0300</pubDate>
       <guid>https://petrucodes.ro/posts/composing-atmospheres/</guid>

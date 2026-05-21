@@ -1,0 +1,96 @@
+<div class="profile">
+    {{- with site.Params.profileMode }}
+    <div class="profile_inner">
+        {{- if .imageUrl -}}
+        {{- $img := "" }}
+        {{- if not (urls.Parse .imageUrl).IsAbs }}
+            {{- $img = resources.Get .imageUrl }}
+        {{- end }}
+        {{- if $img }}
+            {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "bmp" "gif") -}}
+            {{- if hugo.IsExtended -}}
+                {{- $processableFormats = $processableFormats | append "webp" -}}
+            {{- end -}}
+            {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+            {{- if and (in $processableFormats $img.MediaType.SubType) (eq $prod true)}}
+                {{- if (not (and (not .imageHeight) (not .imageWidth))) }}
+                    {{- $img = $img.Resize (printf "%dx%d" .imageWidth .imageHeight) }}
+                {{- else if .imageHeight }}
+                    {{- $img = $img.Resize (printf "x%d" .imageHeight) }}
+                {{ else if .imageWidth }}
+                    {{- $img = $img.Resize (printf "%dx" .imageWidth) }}
+                {{ else }}
+                    {{- $img = $img.Resize "150x150" }}
+                {{- end }}
+            {{- end }}
+            <img draggable="false" src="{{ $img.Permalink }}" alt="{{ .imageTitle | default "profile image" }}" title="{{ .imageTitle }}"
+                height="{{ .imageHeight | default 150 }}" width="{{ .imageWidth | default 150 }}" />
+        {{- else }}
+        <img draggable="false" src="{{ .imageUrl | absURL }}" alt="{{ .imageTitle | default "profile image" }}" title="{{ .imageTitle }}"
+            height="{{ .imageHeight | default 150 }}" width="{{ .imageWidth | default 150 }}" />
+        {{- end }}
+        {{- end }}
+        <h1>{{ .title | default site.Title | markdownify }}</h1>
+        <span>{{ .subtitle | markdownify }}</span>
+        {{- partial "social_icons.html" -}}
+
+        {{- with .buttons }}
+        <div class="buttons">
+            {{- range . }}
+            <a class="button" href="{{ trim .url " " }}" rel="noopener" title="{{ .name }}">
+                <span class="button-inner">
+                    {{ .name }}
+                    {{- if (findRE "://" .url) }}&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="14" width="14">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                    {{- end }}
+                </span>
+            </a>
+            {{- end }}
+        </div>
+        {{- end }}
+
+        {{- $sections := site.Params.mainSections | default (slice "posts") }}
+        {{- $pages := where site.RegularPages "Type" "in" $sections }}
+        {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+        {{- $pages = sort $pages "Date" "desc" }}
+        {{- $recent := first (.recentPostsCount | default 5) $pages }}
+        {{- with $recent }}
+        <section class="profile-recent-posts" aria-labelledby="recent-posts-title">
+            <div class="profile-recent-posts-header">
+                <h2 id="recent-posts-title">Recent Posts</h2>
+                <div class="profile-recent-posts-actions">
+                    <a href="{{ "posts/" | relURL }}">All posts</a>
+                    <a class="rss-link" href="{{ "index.xml" | relURL }}" aria-label="RSS feed">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 11a9 9 0 0 1 9 9" />
+                            <path d="M4 4a16 16 0 0 1 16 16" />
+                            <circle cx="5" cy="19" r="1" />
+                        </svg>
+                        RSS
+                    </a>
+                </div>
+            </div>
+            <ul>
+                {{- range . }}
+                <li>
+                    <a class="profile-recent-post" href="{{ .RelPermalink }}">
+                        <span class="profile-recent-post-title">{{ .Title }}</span>
+                        {{- if not .Date.IsZero }}
+                        <span class="profile-recent-post-meta">
+                            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (default ":date_medium" site.Params.DateFormat) }}</time>
+                        </span>
+                        {{- end }}
+                    </a>
+                </li>
+                {{- end }}
+            </ul>
+        </section>
+        {{- end }}
+    </div>
+    {{- end}}
+</div>

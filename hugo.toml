@@ -10,14 +10,16 @@ theme = 'PaperMod'
     weight = 10
 
   [[menu.main]]
-    name = "Music"
-    url = "/categories/music/"
-    weight = 20
+    name = "Movie Reviews"
+    url = "/categories/movie-reviews/"
+    weight = 30
 
   [[menu.main]]
-    name = "Other"
-    url = "/categories/other/"
+    name = "Misc"
+    url = "/categories/misc/"
     weight = 30
+
+  
 
   [[menu.main]]
     name = "Search"
@@ -26,6 +28,14 @@ theme = 'PaperMod'
 
 
 [params]
+    ShowReadingTime = true
+    ShowBreadCrumbs = true
+    ShowCodeCopyButtons = true
+    ShowToc = true
+    TocOpen = true
+    ShowRssButtonInSectionTermList = true
+    hideFooter = true
+
     [params.profileMode]
         enabled = true
         title = "Welcome to my blog"

@@ -6,23 +6,28 @@
     <description>Recent content in Programming on Petru Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Apr 2026 15:07:10 +0300</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 18:49:15 +0300</lastBuildDate>
     <atom:link href="https://petrucodes.ro/categories/programming/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Creating a CMS web application for a blog in Rust</title>
-      <link>https://petrucodes.ro/posts/my-first-programming-post/</link>
-      <pubDate>Mon, 27 Apr 2026 15:07:10 +0300</pubDate>
-      <guid>https://petrucodes.ro/posts/my-first-programming-post/</guid>
-      <description>&lt;h1 id=&#34;web-programming-in-rust&#34;&gt;Web programming in Rust&lt;/h1&gt;
-&lt;p&gt;Web in rust is interesting for this project we are using:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Axum&lt;/li&gt;
-&lt;li&gt;Etc.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;A git repository with this project is available here:
-&lt;a href=&#34;https://github.com/petru-robu/rust-blog&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
-  https://github.com/petru-robu/rust-blog
-&lt;/a&gt;&lt;/p&gt;</description>
+      <title>Write-up Secrecy-on-demand CTF</title>
+      <link>https://petrucodes.ro/posts/ctf-writeup/</link>
+      <pubDate>Thu, 21 May 2026 18:49:15 +0300</pubDate>
+      <guid>https://petrucodes.ro/posts/ctf-writeup/</guid>
+      <description>&lt;h1 id=&#34;statement&#34;&gt;Statement&lt;/h1&gt;
+&lt;p&gt;This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.&lt;/p&gt;
+&lt;p&gt;Tags: &lt;code&gt;bypass&lt;/code&gt;, &lt;code&gt;desync&lt;/code&gt;, &lt;code&gt;web&lt;/code&gt;&lt;/p&gt;
+&lt;h1 id=&#34;solution&#34;&gt;Solution&lt;/h1&gt;
+&lt;p&gt;From the tags we see &lt;code&gt;desync&lt;/code&gt;, so maybe http smuggling could work.&lt;/p&gt;
+&lt;p&gt;First, let&amp;rsquo;s check http version:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; curl -I -v http://23.88.96.97:33079/login
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;*   Trying 23.88.96.97:33079...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* Connected to 23.88.96.97 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;23.88.96.97&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; port &lt;span style=&#34;color:#ae81ff&#34;&gt;33079&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* using HTTP/1.x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; HEAD /login HTTP/1.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; Host: 23.88.96.97:33079
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; User-Agent: curl/8.15.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; Accept: */*
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We are using http/1 requests&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

