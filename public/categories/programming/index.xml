@@ -6,8 +6,28 @@
     <description>Recent content in Programming on Petru Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 21 May 2026 18:49:15 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 24 May 2026 21:23:58 +0300</lastBuildDate>
     <atom:link href="https://petrucodes.ro/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial: Adblocker - DNS Resolver in C&#43;&#43;</title>
+      <link>https://petrucodes.ro/posts/adblocker-dns/</link>
+      <pubDate>Sun, 24 May 2026 21:23:58 +0300</pubDate>
+      <guid>https://petrucodes.ro/posts/adblocker-dns/</guid>
+      <description>&lt;h1 id=&#34;description&#34;&gt;Description&lt;/h1&gt;
+&lt;p&gt;The goal is to write a DNS adblocker in C++, that works like &lt;a href=&#34;https://pi-hole.net/&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  pi-hole
+&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The flow goes like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Computer acceses a domain for a certain website&lt;/li&gt;
+&lt;li&gt;The DNS Resolver is called to resolve the ip adress of the website&lt;/li&gt;
+&lt;li&gt;Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning &lt;code&gt;0.0.0.0&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;steps&#34;&gt;Steps&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DNS packet parsing&lt;/strong&gt;: this is implemented by hand in C++, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Write-up Secrecy-on-demand CTF</title>
       <link>https://petrucodes.ro/posts/ctf-writeup/</link>

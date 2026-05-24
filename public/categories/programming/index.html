@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto" data-theme="auto">
+<html lang="en" dir="auto" data-theme="light">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,41 +28,10 @@
         }
 
     </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
 </noscript>
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
     }
 
 </script><meta property="og:url" content="https://petrucodes.ro/categories/programming/">
@@ -115,11 +84,6 @@
                 </a>
             </li>
             <li>
-                <a href="https://petrucodes.ro/categories/movie-reviews/" title="Movie Reviews">
-                    <span>Movie Reviews</span>
-                </a>
-            </li>
-            <li>
                 <a href="https://petrucodes.ro/search/" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
@@ -147,6 +111,21 @@
     </a>
   </h1>
 </header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Tutorial: Adblocker - DNS Resolver in C&#43;&#43;
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Description The goal is to write a DNS adblocker in C&#43;&#43;, that works like pi-hole .
+The flow goes like this:
+Computer acceses a domain for a certain website The DNS Resolver is called to resolve the ip adress of the website Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning 0.0.0.0. Steps DNS packet parsing: this is implemented by hand in C&#43;&#43;, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-05-24 21:23:58 +0300 EEST'>May 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to Tutorial: Adblocker - DNS Resolver in C&#43;&#43;" href="https://petrucodes.ro/posts/adblocker-dns/"></a>
+</article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">

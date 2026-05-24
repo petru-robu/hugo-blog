@@ -2,10 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://petrucodes.ro/tags/architecture/</loc>
-    <lastmod>2026-05-21T18:58:24+03:00</lastmod>
+    <loc>https://petrucodes.ro/tags/c&#43;&#43;/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
   </url><url>
     <loc>https://petrucodes.ro/categories/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/tags/dns/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/posts/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/categories/programming/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/tags/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/tags/tutorial/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/posts/adblocker-dns/</loc>
+    <lastmod>2026-05-24T21:23:58+03:00</lastmod>
+  </url><url>
+    <loc>https://petrucodes.ro/tags/architecture/</loc>
     <lastmod>2026-05-21T18:58:24+03:00</lastmod>
   </url><url>
     <loc>https://petrucodes.ro/posts/composing-atmospheres-workshop/</loc>
@@ -20,19 +44,7 @@
     <loc>https://petrucodes.ro/categories/misc/</loc>
     <lastmod>2026-05-21T18:58:24+03:00</lastmod>
   </url><url>
-    <loc>https://petrucodes.ro/</loc>
-    <lastmod>2026-05-21T18:58:24+03:00</lastmod>
-  </url><url>
-    <loc>https://petrucodes.ro/posts/</loc>
-    <lastmod>2026-05-21T18:58:24+03:00</lastmod>
-  </url><url>
-    <loc>https://petrucodes.ro/tags/</loc>
-    <lastmod>2026-05-21T18:58:24+03:00</lastmod>
-  </url><url>
     <loc>https://petrucodes.ro/tags/ctf/</loc>
-    <lastmod>2026-05-21T18:49:15+03:00</lastmod>
-  </url><url>
-    <loc>https://petrucodes.ro/categories/programming/</loc>
     <lastmod>2026-05-21T18:49:15+03:00</lastmod>
   </url><url>
     <loc>https://petrucodes.ro/tags/security/</loc>

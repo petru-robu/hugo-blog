@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="light">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Tutorial: Adblocker - DNS Resolver in C&#43;&#43; | Petru Blog</title>
+<meta name="keywords" content="Tutorial, C&#43;&#43;, DNS">
+<meta name="description" content="Description
+The goal is to write a DNS adblocker in C&#43;&#43;, that works like 
+  pi-hole
+.
+The flow goes like this:
+
+Computer acceses a domain for a certain website
+The DNS Resolver is called to resolve the ip adress of the website
+Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning 0.0.0.0.
+
+Steps
+
+
+DNS packet parsing: this is implemented by hand in C&#43;&#43;, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.">
+<meta name="author" content="">
+<link rel="canonical" href="https://petrucodes.ro/posts/adblocker-dns/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.674031476e8fa56b2d9b83af1e29d9212990928d02331110af7dcd1370ea2bd9.css" integrity="sha256-Z0AxR26PpWstm4OvHinZISmQko0CMxEQr33NE3DqK9k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://petrucodes.ro/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://petrucodes.ro/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://petrucodes.ro/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://petrucodes.ro/apple-touch-icon.png">
+<link rel="mask-icon" href="https://petrucodes.ro/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://petrucodes.ro/posts/adblocker-dns/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    }
+
+</script><meta property="og:url" content="https://petrucodes.ro/posts/adblocker-dns/">
+  <meta property="og:site_name" content="Petru Blog">
+  <meta property="og:title" content="Tutorial: Adblocker - DNS Resolver in C&#43;&#43;">
+  <meta property="og:description" content="Description The goal is to write a DNS adblocker in C&#43;&#43;, that works like pi-hole .
+The flow goes like this:
+Computer acceses a domain for a certain website The DNS Resolver is called to resolve the ip adress of the website Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning 0.0.0.0. Steps DNS packet parsing: this is implemented by hand in C&#43;&#43;, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-05-24T21:23:58+03:00">
+    <meta property="article:modified_time" content="2026-05-24T21:23:58+03:00">
+    <meta property="article:tag" content="Tutorial">
+    <meta property="article:tag" content="C&#43;&#43;">
+    <meta property="article:tag" content="DNS">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tutorial: Adblocker - DNS Resolver in C&#43;&#43;">
+  <meta name="twitter:description" content="Description The goal is to write a DNS adblocker in C&#43;&#43;, that works like pi-hole .
+The flow goes like this:
+Computer acceses a domain for a certain website The DNS Resolver is called to resolve the ip adress of the website Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning 0.0.0.0. Steps DNS packet parsing: this is implemented by hand in C&#43;&#43;, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://petrucodes.ro/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Tutorial: Adblocker - DNS Resolver in C++",
+      "item": "https://petrucodes.ro/posts/adblocker-dns/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Tutorial: Adblocker - DNS Resolver in C++",
+  "name": "Tutorial: Adblocker - DNS Resolver in C\u002b\u002b",
+  "description": "Description The goal is to write a DNS adblocker in C++, that works like pi-hole .\nThe flow goes like this:\nComputer acceses a domain for a certain website The DNS Resolver is called to resolve the ip adress of the website Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning 0.0.0.0. Steps DNS packet parsing: this is implemented by hand in C++, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.\n",
+  "keywords": [
+    "Tutorial", "C++", "DNS"
+  ],
+  "articleBody": "Description The goal is to write a DNS adblocker in C++, that works like pi-hole .\nThe flow goes like this:\nComputer acceses a domain for a certain website The DNS Resolver is called to resolve the ip adress of the website Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning 0.0.0.0. Steps DNS packet parsing: this is implemented by hand in C++, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.\nUDP server: The UDP server will send and receive DNS packets.\nRecursive resolution: After we get a package, what do we do with it? We need to do recursive resolution, to ask nameservers one by one if they know how to resolve the domain. If not, continue in depth to aditional nameservers provided by the DNS packet.\nCaching: A caching mecahnism is essential for efficiency. If we know how a domain was resolved, resolve it from cache next time. Recursive resolution may be expensive.\nDNS over HTTPS: DNS packets are unencrypted by default, the DNS specification does not provide a security measure. A middle man may come and alter the DNS package. But, fortunately, we have HTTPS, so we can send DNS packages over HTTPS.\nLet’s get started:\nPart 1 - Project Setup Installing CMake As I said we are doing this in C++, so we need to setup our project somehow. The build system we are using is CMake . You need to install CMake on your system first. You may do it like this:\nsudo dnf install cmake As I am using Fedora, I will provide Fedora commands. You need to adapt to your own package mmanager.\nInstalling Boost We are also linking Boost.Asio (used for the UDP server), so you will need boost on your system:\nsudo dnf install boost-devel Configuring project We will organize the project in the following way:\napp/main.cpp - this is our entrypoint inc/ - include folder that will contain our .hpp headers src/ - source folder that will contain .cpp header implementation res/ - folder that will contain resources, ex: root_servers.txt (the root DNS servers we will use for recursive resolution) CMakeLists.txt - Cmake build config file CMakeLists.txt will look like this:\ncmake_minimum_required(VERSION 3.20) project(adblocker VERSION 0.1.0 DESCRIPTION \"AdBlocking project\" LANGUAGES CXX ) set(CMAKE_CXX_STANDARD 20) set(CMAKE_CXX_STANDARD_REQUIRED ON) set(CMAKE_CXX_EXTENSIONS OFF) find_package(Threads REQUIRED) add_library(dns_resolver_core src/dns_name.cpp src/dns_message.cpp src/udp_server.cpp src/rec_resolver.cpp ) target_include_directories(dns_resolver_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc ) target_link_libraries(dns_resolver_core PUBLIC Threads::Threads ) target_compile_features(dns_resolver_core PUBLIC cxx_std_20 ) add_executable(dns-resolver app/main.cpp ) target_link_libraries(dns-resolver PRIVATE dns_resolver_core ) Part 2 - DNS parsing To be continued.\n",
+  "wordCount" : "439",
+  "inLanguage": "en",
+  "datePublished": "2026-05-24T21:23:58+03:00",
+  "dateModified": "2026-05-24T21:23:58+03:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://petrucodes.ro/posts/adblocker-dns/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Petru Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://petrucodes.ro/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://petrucodes.ro/" accesskey="h" title="Petru Blog (Alt + H)">Petru Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://petrucodes.ro/categories/programming/" title="Programming">
+                    <span>Programming</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://petrucodes.ro/categories/misc/" title="Misc">
+                    <span>Misc</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://petrucodes.ro/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    <a href='https://petrucodes.ro/'>Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="https://petrucodes.ro/posts/">Posts</a></nav>
+    <h1 class="post-title entry-hint-parent">
+      Tutorial: Adblocker - DNS Resolver in C&#43;&#43;
+    </h1>
+    <div class="post-meta"><span title='2026-05-24 21:23:58 +0300 EEST'>May 24, 2026</span>&nbsp;·&nbsp;<span>3 min</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#description" aria-label="Description">Description</a><ul>
+                    
+            <li>
+                <a href="#steps" aria-label="Steps">Steps</a></li></ul>
+            </li>
+            <li>
+                <a href="#part-1---project-setup" aria-label="Part 1 - Project Setup">Part 1 - Project Setup</a><ul>
+                    
+            <li>
+                <a href="#installing-cmake" aria-label="Installing CMake">Installing CMake</a></li>
+            <li>
+                <a href="#installing-boost" aria-label="Installing Boost">Installing Boost</a></li>
+            <li>
+                <a href="#configuring-project" aria-label="Configuring project">Configuring project</a></li></ul>
+            </li>
+            <li>
+                <a href="#part-2---dns-parsing" aria-label="Part 2 - DNS parsing">Part 2 - DNS parsing</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h1 id="description">Description<a hidden class="anchor" aria-hidden="true" href="#description">#</a></h1>
+<p>The goal is to write a DNS adblocker in C++, that works like <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
+  pi-hole
+</a>.</p>
+<p>The flow goes like this:</p>
+<ul>
+<li>Computer acceses a domain for a certain website</li>
+<li>The DNS Resolver is called to resolve the ip adress of the website</li>
+<li>Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning <code>0.0.0.0</code>.</li>
+</ul>
+<h2 id="steps">Steps<a hidden class="anchor" aria-hidden="true" href="#steps">#</a></h2>
+<ul>
+<li>
+<p><strong>DNS packet parsing</strong>: this is implemented by hand in C++, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.</p>
+</li>
+<li>
+<p><strong>UDP server</strong>: The UDP server will send and receive DNS packets.</p>
+</li>
+<li>
+<p><strong>Recursive resolution</strong>: After we get a package, what do we do with it? We need to do recursive resolution, to ask nameservers one by one if they know how to resolve the domain. If not, continue in depth to aditional nameservers provided by the DNS packet.</p>
+</li>
+<li>
+<p><strong>Caching</strong>: A caching mecahnism is essential for efficiency. If we know how a domain was resolved, resolve it from cache next time. Recursive resolution may be expensive.</p>
+</li>
+<li>
+<p><strong>DNS over HTTPS</strong>: DNS packets are unencrypted by default, the DNS specification does not provide a security measure. A middle man may come and alter the DNS package. But, fortunately, we have HTTPS, so we can send DNS packages over HTTPS.</p>
+</li>
+</ul>
+<hr>
+<p>Let&rsquo;s get started:</p>
+<h1 id="part-1---project-setup">Part 1 - Project Setup<a hidden class="anchor" aria-hidden="true" href="#part-1---project-setup">#</a></h1>
+<h2 id="installing-cmake">Installing CMake<a hidden class="anchor" aria-hidden="true" href="#installing-cmake">#</a></h2>
+<p>As I said we are doing this in C++, so we need to setup our project somehow. The build system we are using is <a href="https://cmake.org/" target="_blank" rel="noopener noreferrer">
+  CMake
+</a>. You need to install CMake on your system first. You may do it like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install cmake 
+</span></span></code></pre></div><p>As I am using Fedora, I will provide Fedora commands. You need to adapt to your own package mmanager.</p>
+<h2 id="installing-boost">Installing Boost<a hidden class="anchor" aria-hidden="true" href="#installing-boost">#</a></h2>
+<p>We are also linking <a href="https://www.boost.org/libs/asio/" target="_blank" rel="noopener noreferrer">
+  Boost.Asio
+</a>(used for the UDP server), so you will need boost on your system:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install boost-devel
+</span></span></code></pre></div><h2 id="configuring-project">Configuring project<a hidden class="anchor" aria-hidden="true" href="#configuring-project">#</a></h2>
+<p>We will organize the project in the following way:</p>
+<ul>
+<li><code>app/main.cpp</code> - this is our entrypoint</li>
+<li><code>inc/</code> - include folder that will contain our <code>.hpp</code> headers</li>
+<li><code>src/</code> - source folder that will contain <code>.cpp</code> header implementation</li>
+<li><code>res/</code> - folder that will contain resources, ex: <code>root_servers.txt</code> (the root DNS servers we will use for recursive resolution)</li>
+<li>CMakeLists.txt - Cmake build config file</li>
+</ul>
+<p>CMakeLists.txt will look like this:</p>
+<pre tabindex="0"><code>cmake_minimum_required(VERSION 3.20)
+
+project(adblocker
+    VERSION 0.1.0
+    DESCRIPTION &#34;AdBlocking project&#34;
+    LANGUAGES CXX
+)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+find_package(Threads REQUIRED)
+
+add_library(dns_resolver_core
+    src/dns_name.cpp
+    src/dns_message.cpp
+    src/udp_server.cpp
+    src/rec_resolver.cpp
+)
+
+target_include_directories(dns_resolver_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc
+)
+
+target_link_libraries(dns_resolver_core
+    PUBLIC
+        Threads::Threads
+)
+
+target_compile_features(dns_resolver_core
+    PUBLIC
+        cxx_std_20
+)
+
+add_executable(dns-resolver
+    app/main.cpp
+)
+
+target_link_libraries(dns-resolver
+    PRIVATE
+        dns_resolver_core
+)
+</code></pre><h1 id="part-2---dns-parsing">Part 2 - DNS parsing<a hidden class="anchor" aria-hidden="true" href="#part-2---dns-parsing">#</a></h1>
+<p>To be continued.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://petrucodes.ro/tags/tutorial/">Tutorial</a></li>
+      <li><a href="https://petrucodes.ro/tags/c&#43;&#43;/">C&#43;&#43;</a></li>
+      <li><a href="https://petrucodes.ro/tags/dns/">DNS</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
