@@ -1,0 +1,19 @@
+{
+  "name": "hugo-blog",
+  "compatibility_date": "2026-06-27",
+  "assets": {
+    "directory": "./public"
+  },
+  "routes": [
+    {
+      "pattern": "petrucodes.ro",
+      "custom_domain": true,
+      "override_existing_dns_record": true
+    },
+    {
+      "pattern": "www.petrucodes.ro",
+      "custom_domain": true,
+      "override_existing_dns_record": true
+    }
+  ]
+}
