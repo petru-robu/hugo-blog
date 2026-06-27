@@ -3,15 +3,5 @@
   "compatibility_date": "2026-06-27",
   "assets": {
     "directory": "./public"
-  },
-  "routes": [
-    {
-      "pattern": "petrucodes.ro",
-      "custom_domain": true
-    },
-    {
-      "pattern": "www.petrucodes.ro",
-      "custom_domain": true
-    }
-  ]
+  }
 }
