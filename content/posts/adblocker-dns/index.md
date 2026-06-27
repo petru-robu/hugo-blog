@@ -9,7 +9,7 @@ tags = ["Tutorial", "C++", "DNS"]
 
 # Description
 
-The goal is to write a DNS adblocker in C++, that works like [pi-hole](https://pi-hole.net/).
+The goal is to write a DNS adblocker in C++, that works like [pi-hole](https://pi-hole.net/)
 
 The flow goes like this:
 - Computer acceses a domain for a certain website
