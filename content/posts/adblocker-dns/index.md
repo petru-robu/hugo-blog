@@ -1,7 +1,7 @@
 +++
 date = '2026-05-24T21:23:58+03:00'
 draft = false
-title = 'Tutorial: Adblocker - DNS Resolver in C++'
+title = 'Adblocker - DNS Resolver in C++'
 
 categories = ["Programming"]
 tags = ["Tutorial", "C++", "DNS"]
@@ -15,6 +15,8 @@ The flow goes like this:
 - Computer acceses a domain for a certain website
 - The DNS Resolver is called to resolve the ip adress of the website
 - Here is where the blocking comes in, if the server requested is blacklisted, we immediately block it, by returning `0.0.0.0`.
+
+Project repository: https://github.com/petru-robu/AdBlockerDNS
 
 ## Steps
 - **DNS packet parsing**: this is implemented by hand in C++, we need to extract data from the packets (parsing), but also to construct packets (serializing). This requires some bit manipulation, as we will see.
@@ -107,7 +109,7 @@ target_link_libraries(dns-resolver
 
 ## DNS names and pointer compression
 
-The DNS packets have a certain structure. You can read about it here: (https://datatracker.ietf.org/doc/html/rfc1035)[https://datatracker.ietf.org/doc/html/rfc1035].
+The DNS packets have a certain structure. You can read about it here: https://datatracker.ietf.org/doc/html/rfc1035 
 
 First, we need to parse a DNS domain name, for this we have dns_name:
 ```cpp
