@@ -7,13 +7,11 @@
   "routes": [
     {
       "pattern": "petrucodes.ro",
-      "custom_domain": true,
-      "override_existing_dns_record": true
+      "custom_domain": true
     },
     {
       "pattern": "www.petrucodes.ro",
-      "custom_domain": true,
-      "override_existing_dns_record": true
+      "custom_domain": true
     }
   ]
 }
