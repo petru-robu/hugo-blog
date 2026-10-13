@@ -20,6 +20,6 @@ fi
 # We use 'rsync' instead of 'scp' because it is much faster (only uploads changed files)
 # and it deletes files on the server that are no longer in your local build.
 echo "Uploading files to VPS..."
-rsync -avz --delete public/ petru@46.101.195.62:/var/www/blog-petru/
+rsync -avz --delete public/ petru@103.119.19.250:/var/www/petrurobu/
 
 echo "Deployment complete! Your site is live."
