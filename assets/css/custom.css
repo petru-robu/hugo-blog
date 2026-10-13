@@ -1,0 +1,42 @@
+.top-row { margin-top: 1rem }
+.search { position: relative; width: 100% }
+.search input {
+  font: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.3rem 0.6rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.search input:focus { outline: none; border-color: var(--accent) }
+.search ul {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.25rem);
+  z-index: 10;
+  width: 18rem;
+  max-width: 85vw;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.search li a, .search li.none { display: block; padding: 0.35rem 0.75rem; font-size: 0.9rem }
+.search li a { text-decoration: none }
+.search li a:hover { background: var(--code-bg) }
+.social { display: inline-flex; gap: 1rem }
+
+/* Contents + collapsible sections */
+.toc { margin: 0 0 1.5rem; padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 4px; background: var(--code-bg) }
+.toc strong { display: block }
+.toc nav { margin: 0.5rem 0 0 }
+.toc ul { margin: 0; padding-left: 1.25rem }
+.toc > nav > ul { padding-left: 0 ; list-style: none }
+
+/* Wider content column (theme default is 70ch) */
+html { max-width: 1050px }

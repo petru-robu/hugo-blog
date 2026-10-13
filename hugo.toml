@@ -1,48 +1,40 @@
 baseURL = 'https://petrurobu.ro/'
 languageCode = 'en-us'
-title = 'Petru Blog'
-theme = 'PaperMod'
+title = 'Petru Robu'
+theme = 'austere'
+enableRobotsTXT = true
 
-[menu]
-  [[menu.main]]
-    name = "Programming"
-    url = "/categories/programming/"
-    weight = 10
+[markup.tableOfContents]
+  startLevel = 1
+  endLevel = 3
 
-  [[menu.main]]
-    name = "Misc"
-    url = "/categories/misc/"
-    weight = 30
-
-  [[menu.main]]
-    name = "Search"
-    url = "/search/"
-    weight = 40
-
+[taxonomies]
+  tag = "tags"
+  category = "categories"
 
 [params]
-    defaultTheme = "light"
-    ShowReadingTime = true
-    ShowBreadCrumbs = true
-    ShowCodeCopyButtons = true
-    ShowToc = true
-    TocOpen = true
-    ShowRssButtonInSectionTermList = true
-    hideFooter = true
-
-    [params.profileMode]
-        enabled = true
-        title = "Welcome to my blog"
-        subtitle = "This blog is intended as a way to share my interests with others. You can find articles here ranging from programming, technical articles to music, art and movie reviews."
-
-    [[params.socialIcons]]
-    name = "github"
-    url = "https://github.com/petru-robu"
-
-    [[params.socialIcons]]
-    name = "youtube"
-    url = "https://www.youtube.com/@petru-robu64"
-
+  description = "A place to share my interests: programming, technical articles, music, art and movie reviews."
+  author = "Petru Robu"
+  strapline = "programming, music and other things"
+  footerText = '<span class="social"><a href="https://github.com/petru-robu">GitHub</a><a href="https://www.youtube.com/@petru-robu64">YouTube</a></span>'
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+[menus]
+  [[menus.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 10
+  [[menus.main]]
+    name = "Programming"
+    pageRef = "/categories/programming"
+    weight = 20
+  [[menus.main]]
+    name = "Experiences"
+    pageRef = "/categories/experiences"
+    weight = 30
+  [[menus.main]]
+    name = "Reviews"
+    pageRef = "/categories/reviews"
+    weight = 40

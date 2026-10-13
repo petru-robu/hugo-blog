@@ -3,7 +3,7 @@ date = '2026-05-21T18:58:24+03:00'
 draft = false
 title = 'Composing Atmospheres Workshop'
 
-categories = ["Misc"]
+categories = ["Experiences"]
 tags = ["Architecture", "Electronic Music", "Experimental"]
 +++
 

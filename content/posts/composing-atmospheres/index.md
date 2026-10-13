@@ -3,7 +3,7 @@ date = '2026-04-27T15:12:10+03:00'
 draft = false
 title = 'Composing atmospheres presentation at UAUIM'
 
-categories = ["Misc"]
+categories = ["Experiences"]
 tags = ["Architecture", "Electronic Music", "Experimental"]
 +++
 
