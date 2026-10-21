@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{- with site.Params.profilePicture }}
+<img src="{{ . | relURL }}" alt="{{ i18n "profilePicture" }}" class="profile-pic">
+{{- end }}
+<article>{{ .Content }}</article>
+{{- $recent := first 3 (where site.RegularPages "Type" "posts").ByDate.Reverse }}
+{{- with $recent }}
+<section class="recent">
+  <h2>Latest posts</h2>
+  {{ partial "entry-list.html" (dict "pages" . "format" "02 Jan 2006") }}
+</section>
+{{- end }}
+{{ end }}

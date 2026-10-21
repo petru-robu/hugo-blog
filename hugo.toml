@@ -18,6 +18,12 @@ enableRobotsTXT = true
   strapline = "programming, music and other things"
   footerText = '<span class="social"><a href="https://github.com/petru-robu">GitHub</a><a href="https://www.youtube.com/@petru-robu64">YouTube</a></span>'
 
+  [params.giscus]
+    repo = "petru-robu/hugo-blog"
+    repoId = "R_kgDOSN01EA"
+    category = "Announcements"
+    categoryId = "DIC_kwDOSN01EM4DJSIV"
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
